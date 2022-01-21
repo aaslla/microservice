@@ -1,7 +1,20 @@
-FROM python:alpine3.6
+FROM python:3.8.11-alpine3.14
 
-COPY application.py /
-RUN pip install flask
+RUN apk add --no-cache \
+    libressl-dev \
+    musl-dev \
+    libffi-dev \
+    gcc
 
-ENTRYPOINT ["python"]
-CMD ["-u", "application.py"]
+COPY . /app
+WORKDIR /app
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+#RUN apk del \
+#    libressl-dev \
+#    musl-dev \
+#    libffi-dev
+
+#ENTRYPOINT [ "python" ]
+#CMD ["application.py"]
